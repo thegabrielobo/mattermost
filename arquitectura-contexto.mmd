@@ -1,0 +1,7 @@
+C4Context
+    title Diagrama de contexto C4 nivel 1
+    Person(admin, "Administrador", "Gestiona el espacio")
+    Person(movil, "Usuario móvil", "Lee mensajes del canal")
+    System(mm, "Mattermost", "Plataforma de colaboración autohospedada para canales y mensajería de equipos. Límite de la propuesta: separador fijo de fecha en web móvil.")
+    Rel(admin, mm, "Administra")
+    Rel(movil, mm, "Consulta canales")

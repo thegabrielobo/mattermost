@@ -1,0 +1,25 @@
+{
+  "fecha": "2026-10-08",
+  "repositorio": "https://github.com/thegabrielobo/mattermost",
+  "base_tag": "v11.8.0",
+  "base_commit": "e8bd2b8a871cbeff6943bead62328478118188df",
+  "ejecucion": "Imagen oficial Docker AMD64 emulada en Mac ARM64; no compilación local del código fuente",
+  "image": "mattermost/mattermost-team-edition:11.8.0",
+  "image_digest": "sha256:fba40ff3283798c3e67d680e51146d87e2af37449e5fe0f79a09aad23415c809",
+  "database": "postgres:16-alpine",
+  "server_version_output": "Version: 11.8.0\nBuild Number: 26997334920\nBuild Date: Fri Jun  5 05:52:46 UTC 2026\nBuild Hash: e8bd2b8a871cbeff6943bead62328478118188df\nBuild Enterprise Ready: false",
+  "ping_http_status": 200,
+  "ping_response": {
+    "ActiveSearchBackend": "database",
+    "AndroidLatestVersion": "",
+    "AndroidMinVersion": "",
+    "IosLatestVersion": "",
+    "IosMinVersion": "",
+    "status": "OK"
+  },
+  "webapp_http_status": 200,
+  "reproduccion_issue": "Pendiente de validación independiente",
+  "issue_estado": "closed",
+  "issue_state_reason": "completed",
+  "issue_closed_at": "2026-09-29T04:00:21Z"
+}
