@@ -869,6 +869,49 @@ describe('PostList', () => {
             expect(ref.current!.state.topPostId).toBe('post3');
         });
     });
+    describe('isScrolling en vista móvil (issue 38666)', () => {
+        const scrollArgs = {
+            scrollDirection: 'forward',
+            scrollOffset: 100,
+            scrollHeight: 1000,
+            clientHeight: 500,
+        };
+
+        test('no debe activar isScrolling cuando la lista se mueve sola', () => {
+            const ref = React.createRef<PostList>();
+            renderWithContext(
+                <PostList
+                    ref={ref}
+                    {...baseProps}
+                    isMobileView={true}
+                />,
+            );
+
+            // scrollUpdateWasRequested true = el movimiento lo pidió el código, no la persona
+            act(() => {
+                ref.current!.onScroll({...scrollArgs, scrollUpdateWasRequested: true});
+            });
+
+            expect(ref.current!.state.isScrolling).toBe(false);
+        });
+
+        test('debe activar isScrolling cuando la persona desliza', () => {
+            const ref = React.createRef<PostList>();
+            renderWithContext(
+                <PostList
+                    ref={ref}
+                    {...baseProps}
+                    isMobileView={true}
+                />,
+            );
+
+            act(() => {
+                ref.current!.onScroll({...scrollArgs, scrollUpdateWasRequested: false});
+            });
+
+            expect(ref.current!.state.isScrolling).toBe(true);
+        });
+    });
 
     describe('scrollToLatestMessages', () => {
         test('should call scrollToBottom', () => {

@@ -401,7 +401,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
 
         if (this.props.isMobileView) {
-            if (!this.state.isScrolling) {
+            if (!scrollUpdateWasRequested && !this.state.isScrolling) {
                 this.setState({
                     isScrolling: true,
                 });
