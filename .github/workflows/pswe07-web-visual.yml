@@ -32,7 +32,7 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      PSWE07_VISUAL_TOOLS: ${{ runner.temp }}/pswe07-visual-tools
+      PSWE07_VISUAL_TOOLS: /tmp/pswe07-visual-tools
       MM_SERVICESETTINGS_SITEURL: http://127.0.0.1:8065
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
