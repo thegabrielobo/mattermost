@@ -1,0 +1,79 @@
+name: PSWE07 visual web comparison
+
+on:
+  push:
+    branches: [pswe07-web-visual-check]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pswe07-web-visual
+  cancel-in-progress: true
+
+jobs:
+  visual:
+    name: Real webapp baseline and fixed mobile viewport
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: pswe07
+          POSTGRES_PASSWORD: pswe07-ephemeral-ci
+          POSTGRES_DB: mattermost
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PSWE07_VISUAL_TOOLS: ${{ runner.temp }}/pswe07-visual-tools
+      MM_SERVICESETTINGS_SITEURL: http://127.0.0.1:8065
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+      - name: Install pinned package manager
+        run: npm install --global npm@11.21.1 --ignore-scripts --no-audit --no-fund
+      - name: Build shared webapp dependencies
+        working-directory: webapp
+        run: npm ci --no-audit --no-fund
+      - name: Prepare isolated browser tooling
+        run: |
+          npm install --prefix "$PSWE07_VISUAL_TOOLS" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+          node "$PSWE07_VISUAL_TOOLS/node_modules/playwright/cli.js" install --with-deps chromium --only-shell
+      - name: Start disposable Mattermost server
+        run: |
+          docker run -d --name pswe07-visual-mm --network host \
+            -e MM_SQLSETTINGS_DRIVERNAME=postgres \
+            -e 'MM_SQLSETTINGS_DATASOURCE=postgres://pswe07:pswe07-ephemeral-ci@127.0.0.1:5432/mattermost?sslmode=disable&connect_timeout=10' \
+            -e MM_SERVICESETTINGS_SITEURL=http://127.0.0.1:9005 \
+            -e MM_SERVICESETTINGS_ALLOWCORSFROM=http://127.0.0.1:9005 \
+            -e MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION=false \
+            -e MM_TEAMSETTINGS_ENABLEOPENSERVER=true \
+            -e MM_SERVICESETTINGS_ENABLEDEVELOPER=true \
+            mattermost/mattermost-team-edition:11.8.0
+          node academic/pswe07/visual/seed.cjs
+      - name: Capture real baseline and corrected webapp
+        run: node academic/pswe07/visual/probe.cjs
+      - name: Preserve server diagnostics
+        if: ${{ !cancelled() }}
+        run: |
+          mkdir -p visual-evidence
+          docker logs pswe07-visual-mm > visual-evidence/server.log 2>&1 || true
+      - name: Upload screenshots videos and observations
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pswe07-web-visual-before-after
+          path: visual-evidence/
+          retention-days: 14
+          if-no-files-found: warn
