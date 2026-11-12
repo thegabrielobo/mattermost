@@ -63,7 +63,9 @@ jobs:
             mattermost/mattermost-team-edition:11.8.0
           node academic/pswe07/visual/seed.cjs
       - name: Capture real baseline and corrected webapp
-        run: node academic/pswe07/visual/probe.cjs
+        run: |
+          git fetch --depth=1 origin e8bd2b8a871cbeff6943bead62328478118188df
+          node academic/pswe07/visual/probe.cjs
       - name: Preserve server diagnostics
         if: ${{ !cancelled() }}
         run: |
