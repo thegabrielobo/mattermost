@@ -42,7 +42,7 @@ async function capture(browser, phase) {
     const page = await context.newPage();
     page.setDefaultTimeout(20000);
     const errors = [];
-    page.on('pageerror', error => errors.push(error.message));
+    page.on('pageerror', error => {errors.push(error.message); fs.writeFileSync(path.join(out, phase + '-browser-errors.json'), JSON.stringify(errors, null, 2));});
     await page.addInitScript(() => {
         window.__dateProbe = [];
         function sample() {
@@ -61,7 +61,8 @@ async function capture(browser, phase) {
     const trials = [];
     for (let repeat = 0; repeat < 2; repeat++) {
         for (const channel of fixture.channels) {
-            await context.request.post(origin + '/api/v4/channels/members/me/view', {data: {channel_id: channel.id}});
+            const viewed = await context.request.post(origin + '/api/v4/channels/members/me/view', {headers: {Authorization: 'Bearer ' + login.headers()['token']}, data: {channel_id: channel.id}});
+            if (!viewed.ok()) throw new Error('Could not mark fixture channel viewed: ' + viewed.status());
             await enterChannel(page, `${origin}/${fixture.team}/channels/${channel.name}`);
             await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
             await page.waitForTimeout(2500);
@@ -146,7 +147,7 @@ async function main() {
         for (const [phase, source] of [['baseline', baseline], ['fixed', fixed]]) {
             fs.writeFileSync(component, source);
             const log = fs.openSync(path.join(out, `${phase}-webpack.log`), 'w');
-            const child = spawn(process.execPath, [path.join(root, 'webapp/node_modules/webpack-cli/bin/cli.js'), 'serve', '--mode', 'development', '--host', '127.0.0.1'], {
+            const child = spawn(process.execPath, [path.join(root, 'webapp/node_modules/webpack-cli/bin/cli.js'), 'serve', '--mode', 'development', '--host', '127.0.0.1', '--no-client-overlay'], {
                 cwd: path.join(root, 'webapp/channels'), detached: true,
                 env: {...process.env, npm_lifecycle_event: 'dev-server', NODE_OPTIONS: '--max-old-space-size=6144'}, stdio: ['ignore', log, log],
             });
