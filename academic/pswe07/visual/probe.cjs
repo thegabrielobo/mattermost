@@ -91,8 +91,8 @@ async function capture(browser, phase) {
             await input.waitFor({state: 'visible', timeout: 5000});
             await input.fill(channel.name);
             await page.waitForTimeout(600);
-            await input.press('Enter');
-            await page.waitForURL(url => url.pathname.endsWith('/channels/' + channel.name), {timeout: 10000});
+            await page.locator('#quickSwitchModal').getByTestId(channel.name).click();
+            await page.waitForURL(url => url.pathname.endsWith('/channels/' + channel.name), {timeout: 10000, waitUntil: 'domcontentloaded'});
             await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
             await page.waitForTimeout(2500);
             const frames = (await page.evaluate(() => window.__dateProbe)).filter(f => f.path.endsWith('/channels/' + channel.name));
@@ -137,6 +137,9 @@ async function capture(browser, phase) {
     const desktopPage = await desktop.newPage();
     await enterChannel(desktopPage, `${origin}/${fixture.team}/channels/dos-dias`);
     await desktopPage.locator('#postListScrollContainer').waitFor({state: 'visible'});
+    await desktopPage.waitForTimeout(2500);
+    const dismissOnboarding = desktopPage.getByText('No thanks, I’ll figure it out myself', {exact: true});
+    if (await dismissOnboarding.isVisible()) {await dismissOnboarding.click(); await desktopPage.waitForTimeout(1000);}
     const desktopFloatingCount = await desktopPage.locator('[data-testid="floatingTimestamp"]').count();
     await desktopPage.screenshot({path: path.join(out, `${phase}-desktop.png`)});
     await desktop.close();
