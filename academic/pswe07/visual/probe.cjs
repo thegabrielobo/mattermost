@@ -20,6 +20,20 @@ async function waitForApp(child) {
     throw new Error('Webapp did not become ready');
 }
 
+async function enterChannel(page, url) {
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
+    const browserLink = page.getByRole('link', {name: 'View in Browser', exact: true});
+    await Promise.race([
+        page.locator('#postListScrollContainer').waitFor({state: 'visible'}),
+        browserLink.waitFor({state: 'visible'}),
+    ]);
+    if (await browserLink.isVisible()) {
+        await page.getByRole('checkbox').check();
+        await browserLink.click();
+    }
+    await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
+}
+
 async function capture(browser, phase) {
     const context = await browser.newContext({viewport: {width: 390, height: 844}, timezoneId: 'UTC', locale: 'en-US',
         recordVideo: {dir: path.join(out, phase + '-video'), size: {width: 390, height: 844}}});
@@ -48,7 +62,7 @@ async function capture(browser, phase) {
     for (let repeat = 0; repeat < 2; repeat++) {
         for (const channel of fixture.channels) {
             await context.request.post(origin + '/api/v4/channels/members/me/view', {data: {channel_id: channel.id}});
-            await page.goto(`${origin}/${fixture.team}/channels/${channel.name}`, {waitUntil: 'domcontentloaded'});
+            await enterChannel(page, `${origin}/${fixture.team}/channels/${channel.name}`);
             await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
             await page.waitForTimeout(2500);
             const frames = await page.evaluate(() => window.__dateProbe);
@@ -89,7 +103,7 @@ async function capture(browser, phase) {
         await page.screenshot({path: path.join(out, `${phase}-switch-unavailable.png`)});
     }
     await cdp.send('Emulation.setCPUThrottlingRate', {rate: 1});
-    await page.goto(`${origin}/${fixture.team}/channels/control-un-dia`);
+    await enterChannel(page, `${origin}/${fixture.team}/channels/control-un-dia`);
     await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
     await page.waitForTimeout(1000);
     // Exercise real scroll input and the rendered return-to-bottom control.
@@ -113,7 +127,7 @@ async function capture(browser, phase) {
     const desktop = await browser.newContext({viewport: {width: 1280, height: 900}, timezoneId: 'UTC'});
     await desktop.request.post(origin + '/api/v4/users/login', {data: {login_id: fixture.username, password: fixture.password}});
     const desktopPage = await desktop.newPage();
-    await desktopPage.goto(`${origin}/${fixture.team}/channels/dos-dias`);
+    await enterChannel(desktopPage, `${origin}/${fixture.team}/channels/dos-dias`);
     await desktopPage.locator('#postListScrollContainer').waitFor({state: 'visible'});
     const desktopFloatingCount = await desktopPage.locator('[data-testid="floatingTimestamp"]').count();
     await desktopPage.screenshot({path: path.join(out, `${phase}-desktop.png`)});
