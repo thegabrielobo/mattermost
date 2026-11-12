@@ -13,7 +13,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function waitForApp(child) {
     for (let i = 0; i < 150; i++) {
-        if (child.exitCode !== null) throw new Error(`Webpack exited with ${child.exitCode}`);
+        if (child.exitCode !== null || child.signalCode !== null) throw new Error(`Webpack exited: ${child.exitCode ?? child.signalCode}`);
         try {const r = await fetch(origin + '/static/root.html', {signal: AbortSignal.timeout(4000)}); if (r.ok) return;} catch {}
         await pause(2000);
     }
@@ -56,10 +56,42 @@ async function capture(browser, phase) {
             const mismatches = frames.filter(frame => frame.scrolling && frame.visible && finalLabel.toLowerCase() === 'today' && frame.text.toLowerCase() === 'yesterday');
             const shot = `${phase}-${channel.name}-${repeat}.png`;
             await page.screenshot({path: path.join(out, shot), fullPage: false});
-            trials.push({channel: channel.name, repeat, finalLabel, wrongVisibleFrames: mismatches.length,
+            trials.push({channel: channel.name, repeat, navigation: 'cold', cpuThrottle: 1, finalLabel, wrongVisibleFrames: mismatches.length,
                 visibleInitialFrames: frames.filter(f => f.scrolling && f.visible).length, frames, screenshot: shot});
         }
     }
+    // Exercise in-app channel transitions through the rendered quick switcher.
+    let spaNavigationError = null;
+    const cdp = await context.newCDPSession(page);
+    await cdp.send('Emulation.setCPUThrottlingRate', {rate: 2});
+    try {
+        for (const [index, channel] of [fixture.channels[0], fixture.channels[2], fixture.channels[1], fixture.channels[0]].entries()) {
+            await page.evaluate(() => {window.__dateProbe = [];});
+            await page.keyboard.press('Control+k');
+            const input = page.locator('#quickSwitchInput');
+            await input.waitFor({state: 'visible', timeout: 5000});
+            await input.fill(channel.name);
+            await page.waitForTimeout(600);
+            await input.press('Enter');
+            await page.waitForURL(url => url.pathname.endsWith('/channels/' + channel.name), {timeout: 10000});
+            await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
+            await page.waitForTimeout(2500);
+            const frames = (await page.evaluate(() => window.__dateProbe)).filter(f => f.path.endsWith('/channels/' + channel.name));
+            const finalLabel = frames.at(-1)?.text ?? '';
+            const wrong = frames.filter(f => f.scrolling && f.visible && finalLabel.toLowerCase() === 'today' && f.text.toLowerCase() === 'yesterday');
+            const shot = `${phase}-switch-${index}-${channel.name}.png`;
+            await page.screenshot({path: path.join(out, shot)});
+            trials.push({channel: channel.name, navigation: 'quick-switch', cpuThrottle: 2, repeat: index, finalLabel,
+                wrongVisibleFrames: wrong.length, visibleInitialFrames: frames.filter(f => f.scrolling && f.visible).length, frames, screenshot: shot});
+        }
+    } catch (error) {
+        spaNavigationError = error.message;
+        await page.screenshot({path: path.join(out, `${phase}-switch-unavailable.png`)});
+    }
+    await cdp.send('Emulation.setCPUThrottlingRate', {rate: 1});
+    await page.goto(`${origin}/${fixture.team}/channels/control-un-dia`);
+    await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
+    await page.waitForTimeout(1000);
     // Exercise real scroll input and the rendered return-to-bottom control.
     const scroller = page.locator('#postListScrollContainer');
     await scroller.hover();
@@ -86,7 +118,7 @@ async function capture(browser, phase) {
     const desktopFloatingCount = await desktopPage.locator('[data-testid="floatingTimestamp"]').count();
     await desktopPage.screenshot({path: path.join(out, `${phase}-desktop.png`)});
     await desktop.close();
-    const result = {phase, viewport: {width: 390, height: 844}, trials, errors, desktopFloatingCount,
+    const result = {phase, spaNavigationError, viewport: {width: 390, height: 844}, trials, errors, desktopFloatingCount,
         manualScroll: {beforeScroll, afterScroll, moved: beforeScroll !== afterScroll, scrollingLabel}, returnToBottom};
     fs.writeFileSync(path.join(out, `${phase}-results.json`), JSON.stringify(result, null, 2));
     return result;
@@ -102,11 +134,13 @@ async function main() {
             const log = fs.openSync(path.join(out, `${phase}-webpack.log`), 'w');
             const child = spawn(process.execPath, [path.join(root, 'webapp/node_modules/webpack-cli/bin/cli.js'), 'serve', '--mode', 'development', '--host', '127.0.0.1'], {
                 cwd: path.join(root, 'webapp/channels'), detached: true,
-                env: {...process.env, NODE_OPTIONS: '--max-old-space-size=6144'}, stdio: ['ignore', log, log],
+                env: {...process.env, npm_lifecycle_event: 'dev-server', NODE_OPTIONS: '--max-old-space-size=6144'}, stdio: ['ignore', log, log],
             });
             try {await waitForApp(child); results.push(await capture(browser, phase));}
             finally {
-                if (child.exitCode === null) process.kill(-child.pid, 'SIGTERM');
+                if (child.exitCode === null && child.signalCode === null) {
+                    try {process.kill(-child.pid, 'SIGTERM');} catch (error) {if (error.code !== 'ESRCH') throw error;}
+                }
                 await pause(2000);
                 fs.closeSync(log);
             }
@@ -116,11 +150,22 @@ async function main() {
         const summary = {baselineReproduced: reproduced, fixedWrongDateObserved: fixedWrongDate,
             conclusion: reproduced ? (fixedWrongDate ? 'defect remains' : 'baseline reproduced; no wrong-date flash observed with fix') : 'baseline symptom not reproduced under this fixture; visual repair remains inconclusive',
             method: 'Real webapp, API-seeded channels, browser RAF DOM observations, screenshots and video; no forced component state',
-            phases: results.map(r => ({phase: r.phase, desktopFloatingCount: r.desktopFloatingCount, manualScroll: r.manualScroll, returnToBottom: r.returnToBottom,
+            phases: results.map(r => ({phase: r.phase, spaNavigationError: r.spaNavigationError, desktopFloatingCount: r.desktopFloatingCount, manualScroll: r.manualScroll, returnToBottom: r.returnToBottom,
                 trials: r.trials.map(({frames, ...t}) => t)}))};
         fs.writeFileSync(path.join(out, 'summary.json'), JSON.stringify(summary, null, 2));
         console.log(JSON.stringify(summary));
         if (fixedWrongDate || !results[1].manualScroll.moved || !results[1].manualScroll.scrollingLabel.scrolling || results[1].desktopFloatingCount !== 0) process.exitCode = 1;
-    } finally {fs.writeFileSync(component, fixed); await browser.close();}
+    } finally {
+        fs.writeFileSync(component, fixed);
+        for (const [index, ctx] of browser.contexts().entries()) {
+            for (const [pageIndex, p] of ctx.pages().entries()) {
+                await p.screenshot({path: path.join(out, `unfinished-${index}-${pageIndex}.png`)}).catch(() => {});
+                const text = await p.locator('body').innerText().catch(() => 'Page not available');
+                fs.writeFileSync(path.join(out, `unfinished-${index}-${pageIndex}.txt`), p.url() + '\n' + text);
+            }
+            await ctx.close().catch(() => {});
+        }
+        await browser.close();
+    }
 }
 main().catch(error => {fs.writeFileSync(component, fixed); console.error(error); process.exitCode = 1;});
