@@ -37,8 +37,10 @@ async function enterChannel(page, url) {
 async function capture(browser, phase) {
     const context = await browser.newContext({viewport: {width: 390, height: 844}, timezoneId: 'UTC', locale: 'en-US',
         recordVideo: {dir: path.join(out, phase + '-video'), size: {width: 390, height: 844}}});
-    const login = await context.request.post(origin + '/api/v4/users/login', {data: {login_id: fixture.username, password: fixture.password}});
+    const login = await context.request.post(origin + '/api/v4/users/login', {headers: {'X-Requested-With': 'XMLHttpRequest'}, data: {login_id: fixture.username, password: fixture.password}});
     if (!login.ok()) throw new Error('Test user login failed: ' + login.status());
+    const session = await context.request.get(origin + '/api/v4/users/me');
+    if (!session.ok()) throw new Error('Browser session cookie not authenticated: ' + session.status());
     const page = await context.newPage();
     page.setDefaultTimeout(20000);
     const errors = [];
@@ -126,7 +128,10 @@ async function capture(browser, phase) {
     await page.screenshot({path: path.join(out, `${phase}-after-manual-scroll.png`)});
     await context.close();
     const desktop = await browser.newContext({viewport: {width: 1280, height: 900}, timezoneId: 'UTC'});
-    await desktop.request.post(origin + '/api/v4/users/login', {data: {login_id: fixture.username, password: fixture.password}});
+    const desktopLogin = await desktop.request.post(origin + '/api/v4/users/login', {headers: {'X-Requested-With': 'XMLHttpRequest'}, data: {login_id: fixture.username, password: fixture.password}});
+    if (!desktopLogin.ok()) throw new Error('Desktop login failed: ' + desktopLogin.status());
+    const desktopSession = await desktop.request.get(origin + '/api/v4/users/me');
+    if (!desktopSession.ok()) throw new Error('Desktop session cookie not authenticated: ' + desktopSession.status());
     const desktopPage = await desktop.newPage();
     await enterChannel(desktopPage, `${origin}/${fixture.team}/channels/dos-dias`);
     await desktopPage.locator('#postListScrollContainer').waitFor({state: 'visible'});
