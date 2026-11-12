@@ -1,0 +1,76 @@
+{
+  "issue": 38666,
+  "sofiasImplementation": "40c673451fe14a6914567d9cb9a8256860db1439",
+  "qualityCommit": "ca040a6e03401dcb0f1674a91752b0b39a665c4d",
+  "node": "24.11.1",
+  "npm": "11.21.1",
+  "before": {
+    "total": 36,
+    "pass": 35,
+    "fail": 1
+  },
+  "after": {
+    "total": 36,
+    "pass": 36,
+    "fail": 0
+  },
+  "eslint": {
+    "exitCode": 0,
+    "errors": 0,
+    "inheritedWarnings": 1
+  },
+  "types": {
+    "exitCode": 0,
+    "command": "npm run check-types --workspace channels"
+  },
+  "sharedLocalBuild": "Parcel supported FSCache adapter; component package built normally",
+  "academicCI": {
+    "run": 43106817272,
+    "job": 130812185737,
+    "result": "success",
+    "artifact": 13894392400,
+    "url": "https://github.com/thegabrielobo/mattermost/actions/runs/43106817272"
+  },
+  "visualValidation": {
+    "status": "executed_original_symptom_inconclusive",
+    "run": 43276950292,
+    "job": 131387776608,
+    "artifact": 13972175777,
+    "branch": "pswe07-web-visual-check",
+    "commit": "0816093d9e50bf0d5b7217ec3660fca97138892c",
+    "workflowResult": "success",
+    "baselineReproduced": false,
+    "fixedWrongDateObserved": false,
+    "trialsPerVersion": 10,
+    "quickSwitchError": null,
+    "manualScroll": {
+      "moved": true,
+      "floatingIndicatorActive": true
+    },
+    "returnToBottom": {
+      "passed": true,
+      "top": 3122,
+      "height": 3756,
+      "viewport": 634
+    },
+    "desktopFloatingCount": 0,
+    "initialVisibleFramesBaselineRange": [
+      106,
+      117
+    ],
+    "initialVisibleFramesFixed": 0,
+    "browserErrorsPerPhase": 8,
+    "browserErrorText": "Unable to find an existing account matching your username for this team. This team may require an invite from the team owner to join.",
+    "limitations": [
+      "Wrong earlier date was not reproduced in the baseline; visual repair remains inconclusive.",
+      "Chromium viewport emulation only; no Safari or physical-device validation.",
+      "Both phases recorded the same eight account/team browser errors; preserved in phase results, not silently discarded."
+    ],
+    "url": "https://github.com/thegabrielobo/mattermost/actions/runs/43276950292"
+  },
+  "generalCI": {
+    "run": 43106817307,
+    "result": "success",
+    "url": "https://github.com/thegabrielobo/mattermost/actions/runs/43106817307"
+  }
+}

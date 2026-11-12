@@ -1,0 +1,10 @@
+flowchart LR
+    usuario["Usuario de canales<br/>Web móvil o aplicación RNv2"]
+    administrador["Administrador del espacio<br/>Archiva o restaura canales"]
+    mattermost["Mattermost<br/>Sistema de colaboración autohospedado<br/>Mensajes, canales y sincronización"]
+    usuario -->|Lee mensajes y consulta canales| mattermost
+    administrador -->|Gestiona canales| mattermost
+    classDef person fill:#e8f0f8,stroke:#1f4e79,color:#000
+    classDef system fill:#1f4e79,stroke:#173b5c,color:#fff
+    class usuario,administrador person
+    class mattermost system

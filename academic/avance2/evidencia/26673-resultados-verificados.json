@@ -1,0 +1,137 @@
+{
+  "baseCommit": "7a46711d3520a8466e011e8fbcf13e91730205b0",
+  "branch": "GH-26673-unarchived-channel-list",
+  "nodeVersion": "v24.15.0",
+  "beforeFix": {
+    "tests": 6,
+    "passed": 3,
+    "failed": 3,
+    "suites": 1,
+    "startedAtUTC": "2026-11-11T18:32:52.815000+00:00",
+    "suitesResults": [
+      {
+        "name": "channel_unarchive.test.ts",
+        "status": "failed",
+        "tests": 6
+      }
+    ]
+  },
+  "beforeConcurrencyFix": {
+    "tests": 7,
+    "passed": 6,
+    "failed": 1,
+    "suites": 1,
+    "startedAtUTC": "2026-11-11T18:34:38.890000+00:00",
+    "suitesResults": [
+      {
+        "name": "channel_unarchive.test.ts",
+        "status": "failed",
+        "tests": 7
+      }
+    ]
+  },
+  "afterFix": {
+    "tests": 137,
+    "passed": 137,
+    "failed": 0,
+    "suites": 3,
+    "startedAtUTC": "2026-11-11T18:36:23.067000+00:00",
+    "suitesResults": [
+      {
+        "name": "channel_unarchive.test.ts",
+        "status": "passed",
+        "tests": 7
+      },
+      {
+        "name": "event.test.ts",
+        "status": "passed",
+        "tests": 84
+      },
+      {
+        "name": "channel.test.ts",
+        "status": "passed",
+        "tests": 46
+      }
+    ]
+  },
+  "eslint": {
+    "exitCode": 0,
+    "errors": 0,
+    "warnings": 19,
+    "scope": [
+      "app/actions/websocket/channel.ts",
+      "app/actions/websocket/channel.test.ts",
+      "app/actions/websocket/channel_unarchive.test.ts"
+    ],
+    "newTestWarnings": 0
+  },
+  "typecheck": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit",
+    "exitCode": 0
+  },
+  "wholeChannelFileCoverage": {
+    "lines": {
+      "total": 261,
+      "covered": 247,
+      "skipped": 0,
+      "pct": 94.63
+    },
+    "statements": {
+      "total": 262,
+      "covered": 248,
+      "skipped": 0,
+      "pct": 94.65
+    },
+    "functions": {
+      "total": 14,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 183,
+      "covered": 151,
+      "skipped": 0,
+      "pct": 82.51
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "changedLineCoverage": {
+    "method": "Intersection of git added lines with Istanbul executable statement start lines; max hit count for statements on each line. Imports, types, blank lines and comments excluded.",
+    "totalAddedExecutableLines": 35,
+    "coveredAddedExecutableLines": 33,
+    "percent": 94.29,
+    "uncoveredLines": [
+      126,
+      127
+    ],
+    "source": "app/actions/websocket/channel.ts",
+    "baseCommit": "7a46711d3520a8466e011e8fbcf13e91730205b0",
+    "measuredAtUTC": "2026-11-11T18:37:06.586869+00:00"
+  },
+  "nativeVisualReproduction": true,
+  "limitations": [
+    "Tests use real WatermelonDB models with controlled REST and in-memory LokiJS; distinct from native test.",
+    "No screenshot/video was retained from the native simulator test.",
+    "No additional close-and-reopen persistence test was performed.",
+    "Mobile PR is draft and awaits Sofia review; no approval or merge.",
+    "Inherited E2E label manager fails because MATTERMOST_BUILD_GH_TOKEN is absent in fork."
+  ],
+  "publishedCommit": "13d63e6ca319c601dac09ee35ddd55700252725c",
+  "pullRequest": "https://github.com/thegabrielobo/mattermost-mobile/pull/1",
+  "academicCI": {
+    "run": 43101844095,
+    "result": "success",
+    "url": "https://github.com/thegabrielobo/mattermost-mobile/actions/runs/43101844095"
+  },
+  "nativeEvidence": {
+    "before": "26673-native-before-result.json",
+    "after": "26673-native-after-result.json",
+    "method": "User-operated iPhone 16e simulator, iOS 26.1, plus read-only SQLite inspection"
+  }
+}

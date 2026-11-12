@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Componentes y proceso">
+    <mxGraphModel dx="1500" dy="760" grid="1" page="1" pageWidth="1500" pageHeight="760">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="web" value="Webapp de Channels&#10;#38666 separador de fecha&#10;Lista virtualizada · React y TypeScript" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#f1f7fb;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="120" width="390" height="145" />
+        </mxCell>
+        <mxCell id="rn" value="Cliente móvil RNv2&#10;#26673 canal desarchivado&#10;WebSocket → recuperación y persistencia&#10;app/actions/websocket/channel.ts" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#f1f7fb;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="60" y="390" width="390" height="170" />
+        </mxCell>
+        <mxCell id="server" value="Servidor Mattermost 11.8&#10;API REST y eventos WebSocket&#10;Sin cambios de producto" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#f1f7fb;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="585" y="120" width="360" height="145" />
+        </mxCell>
+        <mxCell id="pg" value="PostgreSQL 16&#10;Persistencia del servidor&#10;Sin cambios de esquema" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#f1f7fb;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1050" y="120" width="360" height="145" />
+        </mxCell>
+        <mxCell id="local" value="Base local del móvil&#10;WatermelonDB / SQLite en iOS&#10;Channel · MyChannel · CategoryChannel&#10;Persistencia verificada en el simulador" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#f1f7fb;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="585" y="390" width="360" height="170" />
+        </mxCell>
+        <mxCell id="gov" value="Proceso en GitHub&#10;Dos forks y dos PR independientes&#10;Revisión cruzada y Actions&#10;Fuera de la ejecución del sistema" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fillColor=#fff8e1;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1050" y="390" width="360" height="170" />
+        </mxCell>
+        <mxCell id="edge0" value="REST / WebSocket" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=0;" edge="1" parent="1" source="web" target="server">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge1" value="REST / WebSocket" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=0;" edge="1" parent="1" source="rn" target="server">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge2" value="SQL" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=0;" edge="1" parent="1" source="server" target="pg">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge3" value="Lectura y persistencia" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=0;" edge="1" parent="1" source="rn" target="local">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

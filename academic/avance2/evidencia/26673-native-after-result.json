@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-11T19:47:35.705600+00:00",
+  "channel_id": "3zmwxqmw8t8epq5hfydg3gxnxo",
+  "channel_rows": 1,
+  "membership_rows": 1,
+  "category_channel_rows": 1,
+  "delete_at": 0.0,
+  "app_reloaded_after_restore": false,
+  "visual_confirmation": "Gabriel confirmed: appears automatically and can open channel without refreshing",
+  "source": "fixed handler; real iOS SQLite read-only inspection",
+  "native_test_method": "User-operated iOS simulator plus read-only SQLite inspection"
+}

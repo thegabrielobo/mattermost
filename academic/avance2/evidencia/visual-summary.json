@@ -1,0 +1,256 @@
+{
+  "baselineReproduced": false,
+  "fixedWrongDateObserved": false,
+  "conclusion": "baseline symptom not reproduced under this fixture; visual repair remains inconclusive",
+  "method": "Real webapp, API-seeded channels, browser RAF DOM observations, screenshots and video; no forced component state",
+  "phases": [
+    {
+      "phase": "baseline",
+      "spaNavigationError": null,
+      "desktopFloatingCount": 0,
+      "manualScroll": {
+        "beforeScroll": 3122,
+        "afterScroll": 2422,
+        "moved": true,
+        "scrollingLabel": {
+          "text": "Today",
+          "scrolling": true
+        }
+      },
+      "returnToBottom": {
+        "attempted": true,
+        "metrics": {
+          "top": 3122,
+          "height": 3756,
+          "viewport": 634
+        }
+      },
+      "trials": [
+        {
+          "channel": "dos-dias",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 111,
+          "screenshot": "baseline-dos-dias-0.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 106,
+          "screenshot": "baseline-dos-dias-corto-0.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 113,
+          "screenshot": "baseline-control-un-dia-0.png"
+        },
+        {
+          "channel": "dos-dias",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 115,
+          "screenshot": "baseline-dos-dias-1.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 107,
+          "screenshot": "baseline-dos-dias-corto-1.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 115,
+          "screenshot": "baseline-control-un-dia-1.png"
+        },
+        {
+          "channel": "dos-dias",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 0,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 117,
+          "screenshot": "baseline-switch-0-dos-dias.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 115,
+          "screenshot": "baseline-switch-1-control-un-dia.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 2,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 117,
+          "screenshot": "baseline-switch-2-dos-dias-corto.png"
+        },
+        {
+          "channel": "dos-dias",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 3,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 115,
+          "screenshot": "baseline-switch-3-dos-dias.png"
+        }
+      ]
+    },
+    {
+      "phase": "fixed",
+      "spaNavigationError": null,
+      "desktopFloatingCount": 0,
+      "manualScroll": {
+        "beforeScroll": 3122,
+        "afterScroll": 2422,
+        "moved": true,
+        "scrollingLabel": {
+          "text": "Today",
+          "scrolling": true
+        }
+      },
+      "returnToBottom": {
+        "attempted": true,
+        "metrics": {
+          "top": 3122,
+          "height": 3756,
+          "viewport": 634
+        }
+      },
+      "trials": [
+        {
+          "channel": "dos-dias",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-dos-dias-0.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-dos-dias-corto-0.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "repeat": 0,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-control-un-dia-0.png"
+        },
+        {
+          "channel": "dos-dias",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-dos-dias-1.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-dos-dias-corto-1.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "repeat": 1,
+          "navigation": "cold",
+          "cpuThrottle": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-control-un-dia-1.png"
+        },
+        {
+          "channel": "dos-dias",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 0,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-switch-0-dos-dias.png"
+        },
+        {
+          "channel": "control-un-dia",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 1,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-switch-1-control-un-dia.png"
+        },
+        {
+          "channel": "dos-dias-corto",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 2,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-switch-2-dos-dias-corto.png"
+        },
+        {
+          "channel": "dos-dias",
+          "navigation": "quick-switch",
+          "cpuThrottle": 2,
+          "repeat": 3,
+          "finalLabel": "Today",
+          "wrongVisibleFrames": 0,
+          "visibleInitialFrames": 0,
+          "screenshot": "fixed-switch-3-dos-dias.png"
+        }
+      ]
+    }
+  ]
+}

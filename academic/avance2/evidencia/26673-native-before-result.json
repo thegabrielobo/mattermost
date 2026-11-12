@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-11-11T19:42:56.223534+00:00",
+  "channel_id": "3zmwxqmw8t8epq5hfydg3gxnxo",
+  "channel_rows_after_restore": 0,
+  "membership_rows_after_restore": 0,
+  "app_reloaded_after_restore": false,
+  "visual_confirmation": "User confirmed: channel does not appear without refresh",
+  "live_control_received_after_restore": true
+}

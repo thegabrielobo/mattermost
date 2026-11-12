@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+<rect width="1500" height="760" fill="white"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#666"/></marker></defs>
+<g font-family="Arial, sans-serif">
+<text x="55" y="55" font-size="32" font-weight="700">Arquitectura y límites de los cambios</text>
+<path d="M450 190 H585" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M450 440 H510 V220 H585" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M945 190 H1050" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M450 480 H585" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="455" y="173" font-size="16" fill="#666">REST / WS</text>
+<text x="950" y="173" font-size="16" fill="#666">SQL</text>
+<text x="467" y="515" font-size="16" fill="#666">Local</text>
+<rect x="60" y="120" width="390" height="145" rx="15" fill="#F1F7FB" stroke="#1F4E79" stroke-width="3"/>
+<text x="82" y="159" font-size="23" fill="#000000">Webapp de Channels</text>
+<text x="82" y="190" font-size="17" fill="#21723A">#38666 separador de fecha</text>
+<text x="82" y="221" font-size="17" fill="#666666">Lista virtualizada · React y TypeScript</text>
+<rect x="60" y="390" width="390" height="170" rx="15" fill="#F1F7FB" stroke="#1F4E79" stroke-width="3"/>
+<text x="82" y="429" font-size="23" fill="#000000">Cliente móvil RNv2</text>
+<text x="82" y="460" font-size="17" fill="#21723A">#26673 canal desarchivado</text>
+<text x="82" y="491" font-size="17" fill="#666666">WebSocket → recuperación y persistencia</text>
+<text x="82" y="522" font-size="17" fill="#666666">app/actions/websocket/channel.ts</text>
+<rect x="585" y="120" width="360" height="145" rx="15" fill="#FFFFFF" stroke="#1F4E79" stroke-width="3"/>
+<text x="607" y="159" font-size="23" fill="#000000">Servidor Mattermost 11.8</text>
+<text x="607" y="190" font-size="17" fill="#666666">API REST y eventos WebSocket</text>
+<text x="607" y="221" font-size="17" fill="#666666">Sin cambios de producto</text>
+<rect x="1050" y="120" width="360" height="145" rx="15" fill="#FFFFFF" stroke="#1F4E79" stroke-width="3"/>
+<text x="1072" y="159" font-size="23" fill="#000000">PostgreSQL 16</text>
+<text x="1072" y="190" font-size="17" fill="#666666">Persistencia del servidor</text>
+<text x="1072" y="221" font-size="17" fill="#666666">Sin cambios de esquema</text>
+<rect x="585" y="390" width="360" height="170" rx="15" fill="#FFFFFF" stroke="#1F4E79" stroke-width="3"/>
+<text x="607" y="429" font-size="23" fill="#000000">Base local del móvil</text>
+<text x="607" y="460" font-size="17" fill="#666666">WatermelonDB / SQLite en iOS</text>
+<text x="607" y="491" font-size="17" fill="#666666">Channel · MyChannel · CategoryChannel</text>
+<text x="607" y="522" font-size="17" fill="#666666">Persistencia verificada en el simulador</text>
+<rect x="1050" y="390" width="360" height="170" rx="15" fill="#FFF8E1" stroke="#8C6B00" stroke-width="3" stroke-dasharray="8 5"/>
+<text x="1072" y="429" font-size="23" fill="#000000">Proceso en GitHub</text>
+<text x="1072" y="460" font-size="17" fill="#666666">Dos forks y dos PR independientes</text>
+<text x="1072" y="491" font-size="17" fill="#666666">Revisión cruzada y Actions</text>
+<text x="1072" y="522" font-size="17" fill="#666666">Fuera de la ejecución del sistema</text>
+<text x="60" y="660" font-size="18" fill="#666">Los cambios se limitan al webapp y al cliente móvil; se utilizan la API y los eventos existentes.</text>
+<text x="60" y="697" font-size="18" fill="#666">Corte 12 noviembre 2026 · Diagrama de componentes complementario al contexto C4 nivel 1.</text></g></svg>

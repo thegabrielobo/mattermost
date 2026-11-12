@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph ejecucion["Ejecución de Mattermost"]
+        web["Webapp Channels<br/>#38666 lista virtualizada"]
+        mobile["Cliente RNv2<br/>#26673 manejador de desarchivado"]
+        server["Servidor Mattermost 11.8<br/>API REST y WebSocket existentes"]
+        local[("WatermelonDB / SQLite<br/>Channel, MyChannel, CategoryChannel")]
+        pg[("PostgreSQL 16")]
+        web -->|REST / WS| server
+        mobile -->|REST / WS| server
+        mobile -->|Lee y persiste| local
+        server -->|SQL| pg
+    end
+    subgraph proceso["Proceso de desarrollo separado de la ejecución"]
+        repos["Dos forks y ramas por issue"] --> pr["PR y revisión cruzada"] --> ci["GitHub Actions y evidencias"]
+    end
