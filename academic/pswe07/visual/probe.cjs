@@ -41,6 +41,8 @@ async function capture(browser, phase) {
     if (!login.ok()) throw new Error('Test user login failed: ' + login.status());
     const session = await context.request.get(origin + '/api/v4/users/me');
     if (!session.ok()) throw new Error('Browser session cookie not authenticated: ' + session.status());
+    const csrf = (await context.cookies(origin)).find(cookie => cookie.name === 'MMCSRF')?.value;
+    if (!csrf) throw new Error('Browser CSRF cookie absent');
     const page = await context.newPage();
     page.setDefaultTimeout(20000);
     const errors = [];
@@ -63,7 +65,7 @@ async function capture(browser, phase) {
     const trials = [];
     for (let repeat = 0; repeat < 2; repeat++) {
         for (const channel of fixture.channels) {
-            const viewed = await context.request.post(origin + '/api/v4/channels/members/me/view', {headers: {Authorization: 'Bearer ' + login.headers()['token']}, data: {channel_id: channel.id}});
+            const viewed = await context.request.post(origin + '/api/v4/channels/members/me/view', {headers: {'X-CSRF-Token': csrf, 'X-Requested-With': 'XMLHttpRequest'}, data: {channel_id: channel.id}});
             if (!viewed.ok()) throw new Error('Could not mark fixture channel viewed: ' + viewed.status());
             await enterChannel(page, `${origin}/${fixture.team}/channels/${channel.name}`);
             await page.locator('#postListScrollContainer').waitFor({state: 'visible'});
