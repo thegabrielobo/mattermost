@@ -2,14 +2,16 @@
 
 Este directorio contiene la arquitectura como código y los flujos de proceso del proyecto académico **Mejoras de consistencia y sincronización en Mattermost**, desarrollado para el curso PSWE07 — Procesos y Administración de Software.
 
-Fecha de corte documental: **22 de noviembre de 2026**.
+Fecha de corte documental: **23 de noviembre de 2026**.
+
+La comprobación de fuentes, representaciones, enlaces y controles aplicables está registrada en [VALIDATION.md](VALIDATION.md).
 
 ## Alcance
 
 El proyecto estudia dos correcciones acotadas en forks académicos:
 
 - [Issue web #38666](https://github.com/mattermost/mattermost/issues/38666): activación inicial del indicador flotante de fecha durante un desplazamiento programático de la lista virtualizada.
-- [Issue móvil #26673](https://github.com/mattermost/mattermost-mobile/issues/26673): restauración de un canal que todavía no existe en la base local de RNv2.
+- [Issue móvil #26673](https://github.com/mattermost/mattermost/issues/26673): restauración de un canal que todavía no existe en la base local de RNv2.
 
 La documentación no pretende describir toda la plataforma Mattermost. Los diagramas se limitan a las personas, contenedores, relaciones y secuencias necesarias para comprender ambos cambios.
 
@@ -100,6 +102,19 @@ El flujo propuesto agrega los controles que faltaron o se aplicaron tardíamente
 | Pruebas focalizadas móvil | 137/137 aprobadas | [Action 43101844095](https://github.com/thegabrielobo/mattermost-mobile/actions/runs/43101844095) |
 
 Una ejecución exitosa demuestra que los pasos del workflow terminaron, pero no sustituye la aceptación funcional. En particular, el ensayo visual web demostró el efecto sobre la activación inicial del indicador, pero la base no reprodujo la fecha incorrecta; por ello W2 permanece inconcluso.
+
+## Controles del PR documental
+
+El PR documental modifica únicamente `academic/final/`; no cambia código de producto, API, esquema, dependencias ni comportamiento en ejecución. Por ello, el control directamente aplicable es la inspección documental: correspondencia Mermaid/SVG, integridad XML, rutas y enlaces.
+
+En el commit inicial del PR:
+
+- [Docs Gap Analysis](https://github.com/thegabrielobo/mattermost/actions/runs/45100818949) terminó correctamente.
+- [API](https://github.com/thegabrielobo/mattermost/actions/runs/45100818911) terminó correctamente, aunque su alcance no valida el contenido de los diagramas.
+- [Server CI](https://github.com/thegabrielobo/mattermost/actions/runs/45100819040) falló al preparar el entorno con `Username and password required`; las pruebas posteriores fueron omitidas. El fallo ocurrió antes de evaluar código de servidor y no constituye evidencia de un defecto en la documentación.
+- Los controles E2E y de análisis que GitHub omitió no son necesarios para demostrar un cambio limitado a documentación académica.
+
+El detalle verificable de GH-04, incluidos los seis pares revisados y los comandos de comprobación, se conserva en [VALIDATION.md](VALIDATION.md).
 
 ## Regeneración
 
