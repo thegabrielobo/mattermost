@@ -65,13 +65,22 @@ El manejador consulta primero la base local. Cuando el canal no existe, recupera
 
 El proceso observado se reconstruyó a partir de evidencia verificable: issues upstream, bases fijadas, ramas, commits, pull requests y GitHub Actions. No inventa Issues académicos ni reviews que no se realizaron.
 
-Al corte documental:
+### Corte histórico
+
+El siguiente estado corresponde al corte documental inicial conservado en el commit `f2da2c6`; el diagrama de proceso observado se mantiene como registro de ese momento:
 
 - El [PR web #1](https://github.com/thegabrielobo/mattermost/pull/1) continúa abierto y sin review formal.
 - El [PR móvil #1](https://github.com/thegabrielobo/mattermost-mobile/pull/1) continúa abierto y requiere cierre independiente en su repositorio.
 - La decisión de integrar, cerrar sin integrar o mantener abiertos los cambios sigue pendiente.
 
 ![Proceso realmente observado](process/process_as_is.svg)
+
+### Estado actualizado al 26 de noviembre de 2026
+
+- El [PR web #1](https://github.com/thegabrielobo/mattermost/pull/1) continúa abierto y fue aprobado por Franklin sobre el commit `ca040a6e03401dcb0f1674a91752b0b39a665c4d`.
+- El [PR móvil #1](https://github.com/thegabrielobo/mattermost-mobile/pull/1) continúa abierto y fue aprobado por Franklin sobre el commit `13d63e6ca319c601dac09ee35ddd55700252725c`.
+- M1 y M3 fueron ejecutadas satisfactoriamente sobre `13d63e6`: el canal reapareció y pudo abrirse sin recargar, y sus registros persistieron al cerrar y reabrir la aplicación con el servidor detenido.
+- El equipo todavía debe decidir si fusiona los PR web y móvil o si los conserva abiertos como evidencia académica.
 
 ## Proceso propuesto
 
@@ -99,9 +108,14 @@ El flujo propuesto agrega los controles que faltaron o se aplicaron tardíamente
 | Pruebas focalizadas web | 36/36 aprobadas | [Action 43106817272](https://github.com/thegabrielobo/mattermost/actions/runs/43106817272) |
 | CI general web | Controles visibles aprobados | [Action 43106817307](https://github.com/thegabrielobo/mattermost/actions/runs/43106817307) |
 | Comparación visual web | Ejecución exitosa; aceptación W2 inconclusa | [Action 43276950292](https://github.com/thegabrielobo/mattermost/actions/runs/43276950292) |
+| Respaldo permanente de evidencia web | Archivo preservado fuera de GitHub Actions | [ZIP en Google Drive](https://drive.google.com/file/d/1hhePpnIPYFrjJlU-CxyHRDWcuyGUj5Sj/view) |
 | Pruebas focalizadas móvil | 137/137 aprobadas | [Action 43101844095](https://github.com/thegabrielobo/mattermost-mobile/actions/runs/43101844095) |
+| M1 móvil | Aprobada sobre `13d63e6`; el canal reapareció y se abrió sin recargar | [Grabaciones y logs M1/M3](https://drive.google.com/file/d/10rs2MeJRBLip6ymiTSgxWQVorELO_Jc6/view) |
+| M3 móvil | Aprobada sobre `13d63e6`; canal y registros persistieron tras reiniciar la app con el servidor detenido | [Grabaciones y logs M1/M3](https://drive.google.com/file/d/10rs2MeJRBLip6ymiTSgxWQVorELO_Jc6/view) |
+| Respaldo permanente de CI móvil | Artifact `13891493596` preservado fuera de GitHub Actions | [ZIP en Google Drive](https://drive.google.com/file/d/1JUCyGLr9Dysl1LORiJuEKCCyepjRGAvV/view) |
+| Carpeta pública consolidada | Evidencias web y móvil con permiso de lector por enlace | [Carpeta del proyecto](https://drive.google.com/drive/folders/1d0niE0W5BzQWcPD8uuUxrTNGQEmU3LP8) |
 
-Una ejecución exitosa demuestra que los pasos del workflow terminaron, pero no sustituye la aceptación funcional. En particular, el ensayo visual web demostró el efecto sobre la activación inicial del indicador, pero la base no reprodujo la fecha incorrecta; por ello W2 permanece inconcluso.
+Una ejecución exitosa demuestra que los pasos del workflow terminaron, pero no sustituye la aceptación funcional. En particular, el ensayo visual web confirmó el cambio en el momento de activación inicial del indicador, pero la versión base no reprodujo la fecha incorrecta original; por ello W2 permanece inconcluso y se conserva como evidencia complementaria.
 
 ## Controles del PR documental
 
